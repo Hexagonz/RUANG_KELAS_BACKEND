@@ -43,7 +43,8 @@ class FasilitasController extends Controller
             return response()->json(['message' => 'Fasilitas not found'], 404);
         }
 
-        return response()->json(['data' => $fasilitas], 200);
+        return response()->json(
+            ['data' => $fasilitas], 200);
     }
 
     // Function untuk mengupdate data fasilitas berdasarkan ID
