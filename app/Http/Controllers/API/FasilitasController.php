@@ -40,11 +40,10 @@ class FasilitasController extends Controller
         $fasilitas = Fasilitas::find($id_fasilitas);
 
         if (!$fasilitas) {
-            return response()->json(['message' => 'Fasilitas not found'], 404);
+            return response()->json(['message' => 'Fasilitas tidak ditemukan'], 404);
         }
 
-        return response()->json(
-            ['data' => $fasilitas], 200);
+        return response()->json(['data' => $fasilitas], 200);
     }
 
     // Function untuk mengupdate data fasilitas berdasarkan ID
@@ -53,7 +52,7 @@ class FasilitasController extends Controller
         $fasilitas = Fasilitas::find($id_fasilitas);
 
         if (!$fasilitas) {
-            return response()->json(['message' => 'Fasilitas not found'], 404);
+            return response()->json(['message' => 'Fasilitas tidak ditemukan'], 404);
         }
 
         $validator = Validator::make($request->all(), [
