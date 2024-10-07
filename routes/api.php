@@ -4,6 +4,7 @@ use App\Http\Controllers\API\DosenController;
 use App\Http\Controllers\API\FasilitasController;
 use App\Http\Controllers\API\JadwalController;
 use App\Http\Controllers\API\KelasController;
+use App\Http\Controllers\API\MataKuliahController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\WaktuController;
 use Illuminate\Http\Request;
@@ -51,11 +52,15 @@ Route::put('/update-fasilitas/{id_fasilitas}', [FasilitasController::class, 'Upd
 Route::delete('/delete-fasilitas/{id_fasilitas}', [FasilitasController::class, 'DeleteFasilitas']);
 
 //kelas
-Route::get('/kelas', [KelasController::class, 'index']);
+Route::get('/kelas', [KelasController::class, 'Kelas']);
 Route::post('/create-kelas', [KelasController::class, 'CreateKelas']);
 Route::put('/update-kelas/{id_kelas}', [KelasController::class, 'UpdateKelas']);
 Route::delete('/delete-kelas/{id_kelas}', [KelasController::class, 'DeleteKelas']);
 Route::post('/borrow-kelas/{id_kelas}', [KelasController::class, 'PinjamKelas']);
 
-
-
+//mata_kuliah
+Route::get('/mata-kuliah', [MataKuliahController::class, 'MataKuliah']);
+Route::post('/create-mata-kuliah', [MataKuliahController::class, 'CreateMataKuliah']);
+Route::put('/update-mata-kuliah/{id_mata-kuliah}', [MataKuliahController::class, 'UpdateMatakuliah']);
+Route::delete('/delete-mata-kuliah/{id_mata-kuliah}', [MataKuliahController::class, 'DeleteMataKuliah']);
+Route::post('/melihat-mata-kuliah/{id_mata-kuliah}', [MataKuliahController::class, 'MelihatMataKuliah']);
