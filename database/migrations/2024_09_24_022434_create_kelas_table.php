@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nama_kelas');
             $table->string('lokasi');
             $table->enum('status', ['Available', 'Not Available']);
+            $table->unsignedBigInteger('id_fasilitas');
+            $table->foreign('id_fasilitas')->references('id_fasilitas')->on('fasilitas');
             $table->timestamps();
         });
     }
