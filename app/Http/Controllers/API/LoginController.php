@@ -33,15 +33,16 @@ class LoginController extends Controller
 
             if (!$user) {
                 return response()->json([
-                    'status' => 401,
-                    'message' => "Nomor induk tidak ditemukan"
-                ], 401);
+                    'status' => 422,
+                    'message' => 'Nim atau Password Salah.',
+                ], 422);
             }
 
             if (!Hash::check($request->password, $user->password)) {
                 return response()->json([
-                    'message' => "Password anda salah"
-                ], 401);
+                    'status' => 422,
+                    'message' => 'Nim atau Password Salah.',
+                ], 422);
             }
 
             // Create a Sanctum token for the user

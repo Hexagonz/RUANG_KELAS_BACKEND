@@ -24,21 +24,21 @@ Route::middleware('auth:sanctum')->post('/logout', [LogoutController::class , 'l
 
 
 //waktu
-Route::get('/Waktu', [WaktuController::class, 'Waktu']);
+Route::get('/waktu', [WaktuController::class, 'Waktu']);
 Route::post('/create-waktu',[WaktuController::class, 'CreateWaktu']);
 Route::put('/update-waktu/{id_waktu}', [WaktuController::class, 'UpdateWaktu']);
 Route::delete('/delete-waktu/{id_waktu}', [WaktuController::class, 'DeleteWaktu']);
 Route::get('/melihat-waktu', [WaktuController::class, 'MelihatWaktu']);
 
 //Dosen
-Route::get('/Dosen', [DosenController::class, 'dosen']);
+Route::get('/dosen', [DosenController::class, 'dosen']);
 Route::post('/create-dosen', [DosenController::class, 'CreateDosen']);
 Route::put('/update-dosen/{id_dosen}', [DosenController::class, 'UpdateDosen']);
 Route::delete('/delete-dosen/{id_dosen}', [DosenController::class, 'DeleteDosen']);
 Route::get('/melihat-dosen/{id_dosen}', [DosenController::class, 'MelihatDosen']);
 
 //Jadwal
-Route::get('/Jadwal', [JadwalController::class, 'Jadwal']);
+Route::get('/jadwal', [JadwalController::class, 'Jadwal']);
 Route::post('/create-jadwal', [JadwalController::class, 'CreateJadwal']);
 Route::put('/update-jadwal/{id_jadwal}', [JadwalController::class, 'UpdateJadwal']);
 Route::delete('delete-jadwal/{id_jadwal}', [JadwalController::class, 'DeleteJadwal']);
