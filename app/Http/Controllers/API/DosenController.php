@@ -20,12 +20,21 @@ class DosenController extends Controller
     public function CreateDosen(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'nip' => 'required|string|min:12|max:12',
             'nama_dosen' => 'required',
-
         ]);
 
         if ($validator->fails()){
-            return response()->json(['erors' => $validator->errors()], 442);
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = Dosen::where("nip","=",$request->nip)->first();
+        if($data) {
+            return response()->json([
+                'errors' => [
+                    "nip" => ['NIP dosen telah ada']
+                ]
+            ],422);
         }
 
         $dosen = Dosen::create($request->all());
@@ -36,11 +45,12 @@ class DosenController extends Controller
     {
         $dosen = Dosen::find($id);
         if (!$dosen){
-            return response()->json(['message' => 'Waktu not found'], 404);
+            return response()->json(['message' => 'Dosen not found'], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'nama_dosen' => 'required|string',
+            'nip' => 'required|string|min:12|max:12',
+            'nama_dosen' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -50,6 +60,7 @@ class DosenController extends Controller
         $dosen->update($request->all());
         return response()->json(['data' => $dosen, 'message' => 'Dosen updated successfully'], 200);
     }
+
     public function DeleteDosen($id) // Tambahkan $id
     {
         $dosen = Dosen::find($id);

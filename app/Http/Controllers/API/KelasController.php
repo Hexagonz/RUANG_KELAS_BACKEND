@@ -42,8 +42,8 @@ class KelasController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'nama_kelas' => 'required|string|max:255',
-            'lokasi' => 'required|string|max:255',
+            'nama_kelas' => 'required|string|min:5|max:5',
+            'lokasi' => 'required|string|max:100',
             'status' => 'required|in:Available,Not Available',
         ]);
 

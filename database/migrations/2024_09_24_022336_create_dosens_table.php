@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dosens', function (Blueprint $table) {
             $table->unsignedBigInteger('id_dosen')->autoIncrement();
+            $table->string('nip');
             $table->string('nama_dosen');
             $table->timestamps();
         });
