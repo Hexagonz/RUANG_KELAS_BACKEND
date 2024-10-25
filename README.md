@@ -21,7 +21,7 @@ git clone https://github.com/Hexagonz/RUANG_KELAS_BACKEND.git {project-directory
 ``
 - Masuk ke``{project-directory}``.
 - Install dependency menggunakan composer dengan perintah
-``composer install``
+``composer install`` or ``composer update``
 - Salin file ``.env.example`` menjadi ``.env``
 - Buat database sesuai yang anda butuhkan, kemudian sesuaikan entry berikut pada file ``.env``:
 - Jalankan diterminal
