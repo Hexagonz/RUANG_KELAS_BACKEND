@@ -1,6 +1,7 @@
 <p  align="center">
 <a  href="https://laravel.com"  target="_blank"><img  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifT3pnrjuihXifAI1hT4Ewp-RJMDFaqHh9tV3RQU-9F58gXebJ52AgW9kHmQwl6wjunJEYHz6gJvvLtzWo-5KlCqhCJQ4GFo0NJLQZuuVFpIveGsk4-_5Cwl55xtFCxD1OV5AXTlcw4go/s320/Logo+POLNEP.png"  width="220"  alt="Laravel Logo"></a> 
-<a  href="https://laravel.com"  target="_blank"><img  src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg"  width="360"  alt="Laravel Logo"></a>
+<a  href="https://laravel.com"  target="_blank"><img  src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg"  width="360"  alt="Laravel Logo">
+</a>
 </p>  
 
 ## PBL Template D3 Teknik Informatika
@@ -11,6 +12,7 @@ PBL template ini membutuhkan <i>minimum requirements</i> untuk aplikasi mengguna
 - PHP 8.2
 - Laravel 11
 - MySQL 8.0/MariaDB 10.4
+- Git all version
 
 Cara menggunakan template ini adalah sebagai berikut:
 - Kloning template ini menggunakan perintah:
