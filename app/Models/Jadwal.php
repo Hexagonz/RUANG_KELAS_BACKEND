@@ -10,6 +10,7 @@ class Jadwal extends Model
     use HasFactory;
 
     protected $table = 'jadwal';
+    protected $primaryKey = "id_jadwal";
     protected $guarded = [];
 
     public function mata_kuliah()

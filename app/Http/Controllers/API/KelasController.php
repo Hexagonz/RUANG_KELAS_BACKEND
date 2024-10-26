@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CreateKelasRequest;
+use Illuminate\Support\Facades\Storage;
 
 class KelasController extends Controller
 {
@@ -13,26 +15,41 @@ class KelasController extends Controller
     public function Kelas()
     {
         $kelas = Kelas::all();
-        return response()->json(['data' => $kelas], 200);
+        return response()->json([
+            'status' => 'succses',
+            'data' => $kelas], 200);
+    }
+
+    public function getImage($filename)
+    {
+        $url = Storage::url('uploads/' . $filename);
+        return response()->json(['url' => $url]);
     }
 
     // Create a new class
-    public function CreateKelas(Request $request)
+    public function CreateKelas(CreateKelasRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nama_kelas' => 'required|string|max:255',
-            'lokasi' => 'required|string|max:255',
-            'status' => 'required|in:Available,Not Available',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+        // Data sudah divalidasi
+        $data = $request->validated();
+    
+        // Proses upload gambar
+        if ($request->hasFile('image_1')) {
+            $data['image_1'] = $request->file('image_1')->store('uploads', 'public');
         }
-
-        $kelas = Kelas::create($request->all());
-        return response()->json(['data' => $kelas, 'message' => 'Kelas created successfully'], 201);
+        if ($request->hasFile('image_2')) {
+            $data['image_2'] = $request->file('image_2')->store('uploads', 'public');
+        }
+        if ($request->hasFile('image_3')) {
+            $data['image_3'] = $request->file('image_3')->store('uploads', 'public');
+        }
+    
+        $kelas = Kelas::create($data); // Simpan data yang sudah diproses
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Kelas berhasil ditambahkan', 
+            'data' => $kelas
+        ], 201);
     }
-
     // Update class details
     public function UpdateKelas(Request $request, $id_kelas)
     {

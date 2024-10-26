@@ -22,14 +22,6 @@ Route::post('/login', [LoginController::class, 'login']);
 // Route::post("/logout", [LogoutController::class, 'logout']);
 Route::middleware('auth:sanctum')->post('/logout', [LogoutController::class , 'logout']);
 
-
-//waktu
-Route::get('/waktu', [WaktuController::class, 'Waktu']);
-Route::post('/create-waktu',[WaktuController::class, 'CreateWaktu']);
-Route::put('/update-waktu/{id_waktu}', [WaktuController::class, 'UpdateWaktu']);
-Route::delete('/delete-waktu/{id_waktu}', [WaktuController::class, 'DeleteWaktu']);
-Route::get('/melihat-waktu', [WaktuController::class, 'MelihatWaktu']);
-
 //Dosen
 Route::get('/dosen', [DosenController::class, 'dosen']);
 Route::post('/create-dosen', [DosenController::class, 'CreateDosen']);
@@ -45,7 +37,7 @@ Route::delete('delete-jadwal/{id_jadwal}', [JadwalController::class, 'DeleteJadw
 Route::get('/melihat-jadwal/{id}', [JadwalController::class, 'MelihatJadwal']);
 
 //fasilitas
-Route::get('/Fasilitas', [FasilitasController::class, 'Fasilitas']);
+Route::get('/fasilitas', [FasilitasController::class, 'Fasilitas']);
 Route::post('/create-fasilitas', [FasilitasController::class, 'CreateFasilitas']);
 Route::get('/melihat-fasilitas/{id_fasilitas}', [FasilitasController::class, 'MelihatFasilitas']);
 Route::put('/update-fasilitas/{id_fasilitas}', [FasilitasController::class, 'UpdateFasilitas']);
@@ -57,10 +49,11 @@ Route::post('/create-kelas', [KelasController::class, 'CreateKelas']);
 Route::put('/update-kelas/{id_kelas}', [KelasController::class, 'UpdateKelas']);
 Route::delete('/delete-kelas/{id_kelas}', [KelasController::class, 'DeleteKelas']);
 Route::post('/borrow-kelas/{id_kelas}', [KelasController::class, 'PinjamKelas']);
+Route::get('/image/{filename}', [KelasController::class, 'getImage']);
 
 //mata_kuliah
 Route::get('/mata-kuliah', [MataKuliahController::class, 'MataKuliah']);
 Route::post('/create-mata-kuliah', [MataKuliahController::class, 'CreateMataKuliah']);
-Route::put('/update-mata-kuliah/{id_mata-kuliah}', [MataKuliahController::class, 'UpdateMatakuliah']);
-Route::delete('/delete-mata-kuliah/{id_mata-kuliah}', [MataKuliahController::class, 'DeleteMataKuliah']);
-Route::post('/melihat-mata-kuliah/{id_mata-kuliah}', [MataKuliahController::class, 'MelihatMataKuliah']);
+Route::put('/update-mata-kuliah/{id_matkul}', [MataKuliahController::class, 'UpdateMataKuliah']);
+Route::delete('/delete-mata-kuliah/{id_matkul}', [MataKuliahController::class, 'DeleteMataKuliah']);
+Route::get('/melihat-mata-kuliah/{id_matkul}', [MataKuliahController::class, 'MelihatMataKuliah']);

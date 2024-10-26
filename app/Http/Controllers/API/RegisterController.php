@@ -21,9 +21,9 @@ class RegisterController extends Controller
         // Validasi input
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'nomor_induk' => 'required|string|max:255|unique:users',
+            'nomor_induk' => 'required|string|min:10|max:10|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|integer|in:1,2' // Role harus 1 atau 2 (admin atau user biasa)
+            'role' => 'required|integer|in:1,2'
         ]);
 
         // Jika validasi gagal
@@ -39,7 +39,7 @@ class RegisterController extends Controller
             'name' => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'password' => Hash::make($request->password),
-            'role' => $request->role, // Role sesuai input, 1 (admin) atau 2 (user biasa)
+            'role' => $request->role
         ]);
 
         // Kembalikan response JSON

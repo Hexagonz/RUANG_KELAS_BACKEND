@@ -15,8 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_matkul')->autoIncrement();
             $table->string('nama_matkul');
             $table->string('sks');
-            $table->unsignedBigInteger('id_dosen')->unique();
-            $table->date('hari');
+            $table->unsignedBigInteger('id_dosen');
             $table->foreign('id_dosen')->references('id_dosen')->on('dosens');
             $table->timestamps();
         });

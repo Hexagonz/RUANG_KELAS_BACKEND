@@ -29,7 +29,7 @@ class LoginController extends Controller
                 return response()->json($validator->errors(), 422);
             }
 
-            $user = User::where("nomor_induk", $request->nomor_induk)->first();
+            $user = User::where("nomor_induk", '=',$request->nomor_induk)->first();
 
             if (!$user) {
                 return response()->json([
@@ -52,7 +52,8 @@ class LoginController extends Controller
                 'message' => 'Login anda Berhasil',
                 'status' => 200,
                 'user'    => $user,
-                'token'   => $token
+                'token'   => $token,
+                'role'  => $user->role
             ], 200);
         } catch (\Throwable $t) {
             Log::error('Error during login: ' . $t->getMessage(), [

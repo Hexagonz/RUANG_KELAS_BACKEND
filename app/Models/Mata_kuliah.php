@@ -8,8 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Mata_kuliah extends Model
 {
     use HasFactory;
-
-    public function Mata_kuliah(){
+    protected $table = "mata_kuliah";
+    protected $primaryKey = "id_matkul";
+    protected $fillable = [
+        "nama_matkul",
+        "sks",
+        "id_dosen"
+    ];
+    public function MataKuliah(){
         return $this->belongsTo(Mata_kuliah::class);
     }
 }

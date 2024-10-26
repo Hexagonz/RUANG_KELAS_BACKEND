@@ -22,9 +22,12 @@ class FasilitasController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
         ]);
-
+        $data = Fasilitas::where('nama','=',$request->nama)->first();
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if($data) {
+            return response()->json(['errors' => 'Fasilitas sudah ada'], 422);
         }
 
         $fasilitas = Fasilitas::create([

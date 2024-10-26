@@ -16,8 +16,11 @@ class MataKuliahController extends Controller
      */
     public function MataKuliah()
     {
-        $mataKuliah = Mata_kuliah::all();
-        return response()->json(['data' => $mataKuliah], 200);
+        $mataKuliah = Mata_kuliah::join("dosens", 'mata_kuliah.id_dosen', '=', 'dosens.id_dosen')->get();
+        return response()->json([
+            'status' => 'succses',
+            'data' => $mataKuliah
+        ], 200);
     }
 
     /**
@@ -30,17 +33,32 @@ class MataKuliahController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_matkul' => 'required|string|max:255',
-            'sks' => 'required|string',
-            'id_dosen' => 'required|exists:dosens,id_dosen|unique:mata_kuliah',
-            'hari' => 'required|date',
+            'sks' => 'required|numeric',
+            'id_dosen' => 'required|numeric|exists:dosens,id_dosen'
         ]);
+
+        $db = Mata_kuliah::join("dosens", 'mata_kuliah.id_dosen', '=', 'dosens.id_dosen')->
+            where(
+                "nama_matkul",
+                "=",
+                $request->nama_matkul
+            )->where('dosens.id_dosen', "=", $request->id_dosen)->first();
+        if ($db) {
+            return response()->json(['errors' => 
+            ['nama_matkul' => 'Mata Kuliah diampuh Dosen Sudah Ada']
+        ], 422);
+        }
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
         $mataKuliah = Mata_kuliah::create($request->all());
-        return response()->json(['data' => $mataKuliah, 'message' => 'Mata Kuliah created successfully'], 201);
+        return response()->json([
+            'status' => 'succses',
+            'data' => $mataKuliah,
+            'message' => 'Mata Kuliah created successfully'
+        ], 201);
     }
 
     /**
@@ -53,9 +71,15 @@ class MataKuliahController extends Controller
     {
         $mataKuliah = Mata_kuliah::find($id);
         if (!$mataKuliah) {
-            return response()->json(['message' => 'Mata Kuliah not found'], 404);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Mata Kuliah not found'
+            ], 404);
         }
-        return response()->json(['data' => $mataKuliah], 200);
+        return response()->json([
+            'status' => 'succses',
+            'data' => $mataKuliah
+        ], 200);
     }
 
     /**
@@ -69,22 +93,38 @@ class MataKuliahController extends Controller
     {
         $mataKuliah = Mata_kuliah::find($id);
         if (!$mataKuliah) {
-            return response()->json(['message' => 'Mata Kuliah not found'], 404);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Mata Kuliah not found'
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
             'nama_matkul' => 'required|string|max:255',
-            'sks' => 'required|string',
-            'id_dosen' => 'required|exists:dosens,id_dosen|unique:mata_kuliah,id_dosen,' . $id . ',id_matkul',
-            'hari' => 'required|date',
+            'sks' => 'required|numeric',
+            'id_dosen' => 'required|numeric|exists:dosens,id_dosen'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        $db = Mata_kuliah::join("dosens", 'mata_kuliah.id_dosen', '=', 'dosens.id_dosen')->
+            where(
+                "nama_matkul",
+                "=",
+                $request->nama_matkul
+            )->where('dosens.id_dosen', "=", $request->id_dosen)->first();
+        if ($db) {
+            return response()->json(['errors' => ['nama_matkul' => 'Mata Kuliah diampuh Dosen Sudah Ada']], 422);
+        }
+
         $mataKuliah->update($request->all());
-        return response()->json(['data' => $mataKuliah, 'message' => 'Mata Kuliah updated successfully'], 200);
+        return response()->json([
+            'status' => 'succses',
+            'data' => $mataKuliah,
+            'message' => 'Mata Kuliah updated successfully'
+        ], 200);
     }
 
     /**
@@ -97,9 +137,15 @@ class MataKuliahController extends Controller
     {
         $mataKuliah = Mata_kuliah::find($id);
         if (!$mataKuliah) {
-            return response()->json(['message' => 'Mata Kuliah not found'], 404);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Mata Kuliah not found'
+            ], 404);
         }
         $mataKuliah->delete();
-        return response()->json(['message' => 'Mata Kuliah deleted successfully'], 200);
+        return response()->json([
+            'status' => 'succses',
+            'message' => 'Mata Kuliah deleted successfully'
+        ], 200);
     }
 }
