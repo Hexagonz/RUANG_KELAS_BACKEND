@@ -7,6 +7,7 @@ use App\Http\Controllers\API\KelasController;
 use App\Http\Controllers\API\MataKuliahController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\WaktuController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\LoginController;
@@ -19,6 +20,7 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/user', [UserController::class, 'index']);
 // Route::post("/logout", [LogoutController::class, 'logout']);
 Route::middleware('auth:sanctum')->post('/logout', [LogoutController::class , 'logout']);
 
