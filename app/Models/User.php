@@ -27,8 +27,10 @@ class User extends Authenticatable
     protected $guarded = [];
 
     protected $fillable = [
-        'nomor_induk', 'password',
-        'role', 'name' // tambahkan field lain jika diperlukan
+        'name',
+        'nomor_induk', 
+        'password',
+        'role' // tambahkan field lain jika diperlukan
     ];
     
 
@@ -38,7 +40,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
