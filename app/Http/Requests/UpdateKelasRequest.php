@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateKelasRequest extends FormRequest
+class UpdateKelasRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class CreateKelasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_kelas' => 'required|in:TI 1,TI 2,TI 3,TI 4,TI 5,TI 6,TI 7,TI 8,TI 9,TI 10,TI 11,TI 12,TI 13,TI 14',
-            'lokasi' => 'required|in:Teori,LAB',
-            'status' => 'required|in:Tersedia,Tidak Tersedia',
-            'kapasitas' => 'required|numeric',
-            'id_fasilitas' => 'required|numeric|exists:fasilitas,id_fasilitas',
-            'image_1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            'nama_kelas' => 'sometimes|required|in:TI 1,TI 2,TI 3,TI 4,TI 5,TI 6,TI 7,TI 8,TI 9,TI 10,TI 11,TI 12,TI 13,TI 14',
+            'lokasi' => 'sometimes|required|in:Teori,LAB',
+            'status' => 'sometimes|required|in:Tersedia,Tidak Tersedia',
+            'kapasitas' => 'sometimes|required|numeric',
+            'id_fasilitas' => 'sometimes|required|numeric|exists:fasilitas,id_fasilitas',
+            'image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
@@ -37,7 +37,7 @@ class CreateKelasRequest extends FormRequest
 
     /**
      * Custom error messages for validation rules.
-    //  */
+     */
     // public function messages(): array
     // {
     //     return [
@@ -47,11 +47,9 @@ class CreateKelasRequest extends FormRequest
     //         'lokasi.in' => 'Lokasi tidak valid.',
     //         'status.required' => 'Status harus diisi.',
     //         'status.in' => 'Status tidak valid.',
-    //         'kapasitas.required' => 'Kapasitas harus diisi.',
     //         'id_fasilitas.required' => 'ID fasilitas harus diisi.',
     //         'id_fasilitas.numeric' => 'ID fasilitas harus berupa angka.',
     //         'id_fasilitas.exists' => 'ID fasilitas tidak ditemukan di database.',
-    //         'image_1.required' => 'Gambar 1 harus diunggah.',
     //         'image_1.image' => 'Gambar 1 harus berupa file gambar.',
     //         'image_1.mimes' => 'Gambar 1 harus berformat jpeg, png, jpg, gif, atau svg.',
     //         'image_1.max' => 'Ukuran Gambar 1 tidak boleh lebih dari 10 MB.',

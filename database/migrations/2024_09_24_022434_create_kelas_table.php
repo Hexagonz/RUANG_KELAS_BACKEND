@@ -16,6 +16,8 @@ return new class extends Migration
             $table->enum('nama_kelas',["TI 1","TI 2","TI 3","TI 4","TI 5","TI 6", "TI 7", "TI 8", "TI 9", "TI 10","TI 11","TI 12","TI 13","TI 14"]);
             $table->enum('lokasi',['Teori', 'LAB']);
             $table->enum('status', ['Tersedia', 'Tidak Tersedia']);
+            $table->integer('kapasitas');
+            $table->integer('index_kelas');
             $table->unsignedBigInteger('id_fasilitas');
             $table->string('image_1');
             $table->string('image_2');

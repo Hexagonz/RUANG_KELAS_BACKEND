@@ -12,7 +12,7 @@ class JadwalController extends Controller
     public function Jadwal()
     {
         $jadwal = Jadwal::with(['mata_kuliah:id_matkul,nama_matkul', 'kelas:id_kelas,nama_kelas', 'waktu:id_waktu'])
-                         ->get();
+            ->get();
         return response()->json(['data' => $jadwal], 200);
     }
 
@@ -22,8 +22,8 @@ class JadwalController extends Controller
             'id_matkul' => 'required|exists:mata_kuliah,id_matkul',
             'id_kelas' => 'required|exists:kelas,id_kelas',
             'id_waktu' => 'required|exists:waktu,id_waktu',
-            'kelas' => 'required|string',
-            'semester' => 'required|string',
+            'kelas' => 'required|string|in: A,B,C,D,E',
+            'semester' => 'required|numeric|in: 1,2,3,4,5,6',
         ]);
 
         if ($validator->fails()) {
@@ -39,8 +39,8 @@ class JadwalController extends Controller
     public function MelihatJadwal($id)
     {
         $jadwal = Jadwal::with(['mata_kuliah:id_matkul,nama_matkul', 'kelas:id_kelas,nama_kelas', 'waktu:id_waktu'])
-                        ->find($id);
-        
+            ->find($id);
+
         if (!$jadwal) {
             return response()->json(['message' => 'Jadwal not found'], 404);
         }

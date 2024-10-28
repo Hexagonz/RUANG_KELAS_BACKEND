@@ -15,8 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_jadwal')->autoIncrement();
             $table->unsignedBigInteger('id_matkul');
             $table->unsignedBigInteger('id_kelas');
-            $table->string('kelas');
-            $table->string('semester');
+            $table->enum('kelas', ["A","B","C","D","E"]);
+            $table->enum('semester',[1,2,3,4,5,6]);
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
             $table->timestamps();

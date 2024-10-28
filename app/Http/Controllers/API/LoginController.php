@@ -52,8 +52,7 @@ class LoginController extends Controller
                 'message' => 'Login anda Berhasil',
                 'status' => 200,
                 'user'    => $user,
-                'token'   => $token,
-                'role'  => $user->role
+                'token'   => $token
             ], 200);
         } catch (\Throwable $t) {
             Log::error('Error during login: ' . $t->getMessage(), [

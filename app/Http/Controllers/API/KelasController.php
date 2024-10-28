@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateKelasRequest;
 use App\Models\Kelas;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CreateKelasRequest;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Http\FormRequest;
 
 class KelasController extends Controller
 {
@@ -17,13 +16,8 @@ class KelasController extends Controller
         $kelas = Kelas::all();
         return response()->json([
             'status' => 'succses',
-            'data' => $kelas], 200);
-    }
-
-    public function getImage($filename)
-    {
-        $url = Storage::url('uploads/' . $filename);
-        return response()->json(['url' => $url]);
+            'data' => $kelas
+        ], 200);
     }
 
     // Create a new class
@@ -31,7 +25,7 @@ class KelasController extends Controller
     {
         // Data sudah divalidasi
         $data = $request->validated();
-    
+
         // Proses upload gambar
         if ($request->hasFile('image_1')) {
             $data['image_1'] = $request->file('image_1')->store('uploads', 'public');
@@ -42,36 +36,57 @@ class KelasController extends Controller
         if ($request->hasFile('image_3')) {
             $data['image_3'] = $request->file('image_3')->store('uploads', 'public');
         }
-    
+
         $kelas = Kelas::create($data); // Simpan data yang sudah diproses
         return response()->json([
             'status' => 'success',
-            'message' => 'Kelas berhasil ditambahkan', 
+            'message' => 'Kelas berhasil ditambahkan',
             'data' => $kelas
         ], 201);
     }
     // Update class details
-    public function UpdateKelas(Request $request, $id_kelas)
+    public function UpdateKelas(UpdateKelasRequest $request, $id_kelas)
     {
+        // Cari data kelas berdasarkan ID
         $kelas = Kelas::find($id_kelas);
         if (!$kelas) {
-            return response()->json(['message' => 'Kelas not found'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Data tidak ditemukan'], 404);
         }
-
-        $validator = Validator::make($request->all(), [
-            'nama_kelas' => 'required|string|min:5|max:5',
-            'lokasi' => 'required|string|max:100',
-            'status' => 'required|in:Available,Not Available',
+        // Mengambil data yang divalidasi
+        $data = $request->validated();
+    
+        // Proses upload gambar, jika ada file yang diupload
+        if ($request->hasFile('image_1')) {
+            $data['image_1'] = $request->file('image_1')->store('uploads', 'public');
+        }
+        if ($request->hasFile('image_2')) {
+            $data['image_2'] = $request->file('image_2')->store('uploads', 'public');
+        }
+        if ($request->hasFile('image_3')) {
+            $data['image_3'] = $request->file('image_3')->store('uploads', 'public');
+        }
+    
+        // Mengupdate data kelas dengan data yang baru atau tetap menggunakan data lama jika tidak ada perubahan
+        $kelas->update([
+            'nama_kelas' => $data['nama_kelas'] ?? $kelas->nama_kelas,
+            'lokasi' => $data['lokasi'] ?? $kelas->lokasi,
+            'status' => $data['status'] ?? $kelas->status,
+            'id_fasilitas' => $data['id_fasilitas'] ?? $kelas->id_fasilitas,
+            'image_1' => $data['image_1'] ?? $kelas->image_1,
+            'image_2' => $data['image_2'] ?? $kelas->image_2,
+            'image_3' => $data['image_3'] ?? $kelas->image_3,
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $kelas->update($request->all());
-        return response()->json(['data' => $kelas, 'message' => 'Kelas updated successfully'], 200);
+        
+    
+        // Kembalikan respon JSON setelah update berhasil
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Kelas berhasil diperbarui.',
+            'data' => $kelas
+        ], 200);
     }
-
+    
     // Delete a class
     public function DeleteKelas($id_kelas)
     {

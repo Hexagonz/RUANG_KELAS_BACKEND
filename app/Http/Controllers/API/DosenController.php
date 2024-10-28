@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mata_kuliah;
 use Illuminate\Http\Request;
 use App\Models\Dosen;
 use Illuminate\Support\Facades\Validator;
@@ -85,6 +86,11 @@ class DosenController extends Controller
                 'status' => 'error',
                 'message' => 'Dosen not found'
             ], 404);
+        }
+
+        $matkul = Mata_kuliah::where('id_dosen','=',$id);
+        if($matkul){           
+            $matkul->delete();
         }
 
         $dosen->delete();

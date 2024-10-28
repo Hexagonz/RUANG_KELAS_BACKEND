@@ -6,7 +6,6 @@ use App\Http\Controllers\API\JadwalController;
 use App\Http\Controllers\API\KelasController;
 use App\Http\Controllers\API\MataKuliahController;
 use App\Http\Controllers\API\RegisterController;
-use App\Http\Controllers\API\WaktuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\LoginController;
@@ -19,7 +18,6 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
-// Route::post("/logout", [LogoutController::class, 'logout']);
 Route::middleware('auth:sanctum')->post('/logout', [LogoutController::class , 'logout']);
 
 //Dosen
@@ -33,7 +31,7 @@ Route::get('/melihat-dosen/{id_dosen}', [DosenController::class, 'MelihatDosen']
 Route::get('/jadwal', [JadwalController::class, 'Jadwal']);
 Route::post('/create-jadwal', [JadwalController::class, 'CreateJadwal']);
 Route::put('/update-jadwal/{id_jadwal}', [JadwalController::class, 'UpdateJadwal']);
-Route::delete('delete-jadwal/{id_jadwal}', [JadwalController::class, 'DeleteJadwal']);
+Route::delete('/delete-jadwal/{id_jadwal}', [JadwalController::class, 'DeleteJadwal']);
 Route::get('/melihat-jadwal/{id}', [JadwalController::class, 'MelihatJadwal']);
 
 //fasilitas
@@ -46,10 +44,9 @@ Route::delete('/delete-fasilitas/{id_fasilitas}', [FasilitasController::class, '
 //kelas
 Route::get('/kelas', [KelasController::class, 'Kelas']);
 Route::post('/create-kelas', [KelasController::class, 'CreateKelas']);
-Route::put('/update-kelas/{id_kelas}', [KelasController::class, 'UpdateKelas']);
+Route::post('/update-kelas/{id_kelas}', [KelasController::class, 'UpdateKelas']);
 Route::delete('/delete-kelas/{id_kelas}', [KelasController::class, 'DeleteKelas']);
-Route::post('/borrow-kelas/{id_kelas}', [KelasController::class, 'PinjamKelas']);
-Route::get('/image/{filename}', [KelasController::class, 'getImage']);
+Route::get('/borrow-kelas/{id_kelas}', [KelasController::class, 'PinjamKelas']);
 
 //mata_kuliah
 Route::get('/mata-kuliah', [MataKuliahController::class, 'MataKuliah']);
