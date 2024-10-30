@@ -47,6 +47,6 @@ class RegisterController extends Controller
             'status' => 'success',
             'message' => 'User berhasil didaftarkan',
             'user' => $user,
-        ], 201);
+        ], 200);
     }
 }

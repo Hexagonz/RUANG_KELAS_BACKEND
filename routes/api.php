@@ -6,17 +6,14 @@ use App\Http\Controllers\API\JadwalController;
 use App\Http\Controllers\API\KelasController;
 use App\Http\Controllers\API\MataKuliahController;
 use App\Http\Controllers\API\RegisterController;
-use App\Http\Controllers\API\WaktuController;
+use App\Http\Controllers\Api\ResetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\LogoutController;
-use App\Models\User; // Pastikan untuk mengimpor model User
-
+use App\Http\Controllers\API\UserController;
+use App\Http\Middleware\RoleMiddleware;
 // Mengambil data pengguna yang sedang login
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return response()->json($request->user()); // Mengembalikan data pengguna yang sedang login
-});
 
 // Rute untuk registrasi
 Route::post('/register', [RegisterController::class, 'register']);
@@ -26,6 +23,12 @@ Route::post('/login', [LoginController::class, 'login']);
 
 // Rute untuk logout
 Route::middleware('auth:sanctum')->post('/logout', [LogoutController::class, 'logout']);
+Route::middleware(['auth:sanctum', RoleMiddleware::class . ':1'])->get('/users', [UserController::class, 'index']);
+Route::middleware(['auth:sanctum', RoleMiddleware::class . ':1'])->put('/reset-password', [ResetPasswordController::class, 'resetPassword']);
+Route::middleware(['auth:sanctum', RoleMiddleware::class . ':1'])->delete('/delete-user/{id}', [UserController::class, 'delete']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return response()->json($request->user()); // Mengembalikan data pengguna yang sedang login
+});
 
 // Dosen
 Route::get('/dosen', [DosenController::class, 'dosen']);

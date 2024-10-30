@@ -15,6 +15,7 @@ class Jadwal extends Model
         "id_matkul",
         "id_kelas",
         "kelas",
+        "index_kelas",
         "semester",
         "waktu_mulai",
         "waktu_selesai"    

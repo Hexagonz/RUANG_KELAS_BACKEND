@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('role');
+            $table->enum('role',[1, 2]);
             $table->string('name');
             $table->string('nomor_induk');
             $table->timestamp('email_verified_at')->nullable();

@@ -27,6 +27,7 @@ class CreateKelasRequest extends FormRequest
             'nama_kelas' => 'required|in:TI 1,TI 2,TI 3,TI 4,TI 5,TI 6,TI 7,TI 8,TI 9,TI 10,TI 11,TI 12,TI 13,TI 14',
             'lokasi' => 'required|in:Teori,LAB',
             'status' => 'required|in:Tersedia,Tidak Tersedia',
+            'index_kelas' => 'required|numeric',
             'kapasitas' => 'required|numeric',
             'id_fasilitas' => 'required|numeric|exists:fasilitas,id_fasilitas',
             'image_1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',

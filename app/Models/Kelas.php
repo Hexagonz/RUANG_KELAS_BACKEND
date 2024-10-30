@@ -14,6 +14,7 @@ class Kelas extends Model
         "lokasi",
         "status",
         "kapasitas",
+        "index_kelas",
         "id_fasilitas",
         "image_1",
         "image_2",

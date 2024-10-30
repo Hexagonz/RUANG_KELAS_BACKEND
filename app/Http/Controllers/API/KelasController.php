@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateKelasRequest;
 use App\Models\Kelas;
 use App\Http\Requests\CreateKelasRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class KelasController extends Controller
 {
     // Get all classes
     public function Kelas()
     {
-        $kelas = Kelas::all();
+        $kelas = Kelas::join('fasilitas','fasilitas.id_fasilitas','=','kelas.id_fasilitas')->get();
         return response()->json([
             'status' => 'succses',
             'data' => $kelas
@@ -25,7 +24,15 @@ class KelasController extends Controller
     {
         // Data sudah divalidasi
         $data = $request->validated();
+        $check = Kelas::where('nama_kelas','=',$request->nama_kelas)
+        ->where('id_fasilitas','=',$request->id_fasilitas)->first();
 
+        if($check) {
+            return response()->json([
+                "status" => 'error',
+                "message" => 'fasilitas sudah ada dikelas ' . $request->nama_kelas
+            ],422);
+        }
         // Proses upload gambar
         if ($request->hasFile('image_1')) {
             $data['image_1'] = $request->file('image_1')->store('uploads', 'public');
@@ -111,13 +118,13 @@ class KelasController extends Controller
             return response()->json(['message' => 'Kelas tidak Tersedia untuk di Pinjam'], 403);
         }
 
-        // Logic for borrowing the class
+        // Logic for borrowing  the class
         return response()->json(['message' => 'Kelas borrowed successfully', 'data' => $kelas], 200);
     }
 
     public function MelihatKelas($id_kelas)
     {
-        $kelas = Kelas::find($id_kelas);
+        $kelas = Kelas::where('index_kelas','=',$id_kelas);
 
         if (!$kelas) {
             return response()->json(['message' => 'kelas not found'], 404);

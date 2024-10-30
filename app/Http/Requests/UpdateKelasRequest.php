@@ -28,6 +28,7 @@ class UpdateKelasRequest extends FormRequest
             'lokasi' => 'sometimes|required|in:Teori,LAB',
             'status' => 'sometimes|required|in:Tersedia,Tidak Tersedia',
             'kapasitas' => 'sometimes|required|numeric',
+            'index_kelas' => 'sometimes|required|numeric',
             'id_fasilitas' => 'sometimes|required|numeric|exists:fasilitas,id_fasilitas',
             'image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
