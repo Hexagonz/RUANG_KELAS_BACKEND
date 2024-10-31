@@ -18,7 +18,8 @@ class Jadwal extends Model
         "index_kelas",
         "semester",
         "waktu_mulai",
-        "waktu_selesai"    
+        "waktu_selesai",
+        "hari"    
     ];
     public function mata_kuliah()
     {

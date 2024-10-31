@@ -11,7 +11,9 @@ class JadwalController extends Controller
 {
     public function Jadwal()
     {
-        $jadwal = Jadwal::with(['mata_kuliah:id_matkul,nama_matkul', 'kelas:id_kelas,nama_kelas', 'waktu:id_waktu'])
+        $jadwal = Jadwal::join('kelas','kelas.index_kelas','=','jadwal.index_kelas')
+        ->join('mata_kuliah','mata_kuliah.id_matkul','=','jadwal.id_matkul')
+        ->join('dosens','mata_kuliah.id_dosen','=','dosens.id_dosen')
             ->get();
         return response()->json(['data' => $jadwal], 200);
     }
@@ -20,20 +22,23 @@ class JadwalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_matkul' => 'required|exists:mata_kuliah,id_matkul',
-            'id_kelas' => 'required|exists:kelas,id_kelas',
-            'id_waktu' => 'required|exists:waktu,id_waktu',
-            'kelas' => 'required|string|in: A,B,C,D,E',
-            'semester' => 'required|numeric|in: 1,2,3,4,5,6',
+            'index_kelas' => 'required|numeric',
+            'waktu_mulai' => 'required|string',
+            'waktu_selesai' => 'required|string',
+            'kelas' => 'required|string|in:A,B,C,D,E',
+            'semester' => 'required|numeric|in:1,2,3,4,5,6',
+            'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
+    
         $jadwal = Jadwal::create($request->all());
-
+    
         return response()->json(['message' => 'Jadwal created successfully', 'data' => $jadwal], 201);
     }
+    
 
     // Melihat Jadwal Berdasarkan ID
     public function MelihatJadwal($id)
@@ -55,8 +60,9 @@ class JadwalController extends Controller
             'id_matkul' => 'required|exists:mata_kuliah,id_matkul',
             'id_kelas' => 'required|exists:kelas,id_kelas',
             'id_waktu' => 'required|exists:waktu,id_waktu',
-            'kelas' => 'required|string',
-            'semester' => 'required|string',
+            'kelas' => 'required|string|in: A,B,C,D,E',
+            'semester' => 'required|numeric|in: 1,2,3,4,5,6',
+            'hari' => 'required|string|in: Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
         ]);
 
         if ($validator->fails()) {

@@ -12,7 +12,10 @@ class KelasController extends Controller
     // Get all classes
     public function Kelas()
     {
-        $kelas = Kelas::join('fasilitas','fasilitas.id_fasilitas','=','kelas.id_fasilitas')->get();
+        $kelas = Kelas::join('fasilitas','fasilitas.id_fasilitas','=','kelas.id_fasilitas')
+        ->orderBy('index_kelas', 'asc')
+        ->get();;
+
         return response()->json([
             'status' => 'succses',
             'data' => $kelas
@@ -24,13 +27,11 @@ class KelasController extends Controller
     {
         // Data sudah divalidasi
         $data = $request->validated();
-        $check = Kelas::where('nama_kelas','=',$request->nama_kelas)
-        ->where('id_fasilitas','=',$request->id_fasilitas)->first();
-
-        if($check) {
+        $check = Kelas::where('nama_kelas','=',$request->nama_kelas);
+        if(!$check) {
             return response()->json([
                 "status" => 'error',
-                "message" => 'fasilitas sudah ada dikelas ' . $request->nama_kelas
+                "message" => 'Kelas ' . $request->nama_kelas . ' Sudah Ada'
             ],422);
         }
         // Proses upload gambar
@@ -56,6 +57,15 @@ class KelasController extends Controller
     {
         // Cari data kelas berdasarkan ID
         $kelas = Kelas::find($id_kelas);
+        $check = Kelas::where('nama_kelas','=',$request->nama_kelas)
+        ->where('id_fasilitas','=',$request->id_fasilitas)->first();
+
+        if($check) {
+            return response()->json([
+                "status" => 'error',
+                "message" => 'fasilitas sudah ada dikelas ' . $request->nama_kelas
+            ],422);
+        }
         if (!$kelas) {
             return response()->json(['status' => 'error', 'message' => 'Data tidak ditemukan'], 404);
         }
@@ -109,14 +119,11 @@ class KelasController extends Controller
     // Borrow a class
     public function PinjamKelas($id_kelas)
     {
-        $kelas = Kelas::find($id_kelas);
+        $kelas = Kelas::where('index_kelas','=',$id_kelas);
         if (!$kelas) {
             return response()->json(['message' => 'Kelas not found'], 404);
         }
-
-        if ($kelas->status == 'Not Available') {
-            return response()->json(['message' => 'Kelas tidak Tersedia untuk di Pinjam'], 403);
-        }
+        $kelas->delete();
 
         // Logic for borrowing  the class
         return response()->json(['message' => 'Kelas borrowed successfully', 'data' => $kelas], 200);
