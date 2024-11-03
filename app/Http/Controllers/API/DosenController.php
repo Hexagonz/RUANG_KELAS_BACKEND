@@ -62,8 +62,8 @@ class DosenController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|string|min:12|max:12',
-            'nama_dosen' => 'required',
+            'nip' => 'sometimes|string|min:12|max:12',
+            'nama_dosen' => 'sometimes',
         ]);
 
         if ($validator->fails()) {

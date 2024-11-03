@@ -100,23 +100,13 @@ class MataKuliahController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'nama_matkul' => 'required|string|max:255',
-            'sks' => 'required|numeric',
-            'id_dosen' => 'required|numeric|exists:dosens,id_dosen'
+            'nama_matkul' => 'sometimes|string|max:255',
+            'sks' => 'sometimes|numeric',
+            'id_dosen' => 'sometimes|numeric|exists:dosens,id_dosen'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $db = Mata_kuliah::join("dosens", 'mata_kuliah.id_dosen', '=', 'dosens.id_dosen')->
-            where(
-                "nama_matkul",
-                "=",
-                $request->nama_matkul
-            )->where('dosens.id_dosen', "=", $request->id_dosen)->first();
-        if ($db) {
-            return response()->json(['errors' => ['nama_matkul' => 'Mata Kuliah diampuh Dosen Sudah Ada']], 422);
         }
 
         $mataKuliah->update($request->all());

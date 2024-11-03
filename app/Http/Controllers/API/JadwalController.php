@@ -35,8 +35,12 @@ class JadwalController extends Controller
         }
     
         $jadwal = Jadwal::create($request->all());
-    
-        return response()->json(['message' => 'Jadwal created successfully', 'data' => $jadwal], 201);
+        $data = Jadwal::join('kelas','kelas.index_kelas','=','jadwal.index_kelas')
+        ->join('mata_kuliah','mata_kuliah.id_matkul','=','jadwal.id_matkul')
+        ->join('dosens','mata_kuliah.id_dosen','=','dosens.id_dosen')
+            ->where('id_jadwal','=',$jadwal->id_jadwal)->get();
+        
+        return response()->json(['message' => 'Jadwal created successfully', 'data' => $data], 201);
     }
     
 
@@ -58,11 +62,12 @@ class JadwalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_matkul' => 'required|exists:mata_kuliah,id_matkul',
-            'id_kelas' => 'required|exists:kelas,id_kelas',
-            'id_waktu' => 'required|exists:waktu,id_waktu',
-            'kelas' => 'required|string|in: A,B,C,D,E',
-            'semester' => 'required|numeric|in: 1,2,3,4,5,6',
-            'hari' => 'required|string|in: Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'index_kelas' => 'required|numeric',
+            'waktu_mulai' => 'required|string',
+            'waktu_selesai' => 'required|string',
+            'kelas' => 'required|string|in:A,B,C,D,E',
+            'semester' => 'required|numeric|in:1,2,3,4,5,6',
+            'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
         ]);
 
         if ($validator->fails()) {
@@ -76,8 +81,11 @@ class JadwalController extends Controller
         }
 
         $jadwal->update($request->all());
-
-        return response()->json(['message' => 'Jadwal updated successfully', 'data' => $jadwal], 200);
+        $data = Jadwal::join('kelas','kelas.index_kelas','=','jadwal.index_kelas')
+        ->join('mata_kuliah','mata_kuliah.id_matkul','=','jadwal.id_matkul')
+        ->join('dosens','mata_kuliah.id_dosen','=','dosens.id_dosen')
+            ->where('id_jadwal','=',$jadwal->id_jadwal)->get();
+        return response()->json(['message' => 'Jadwal updated successfully', 'data' => $data], 200);
     }
 
     // Delete Jadwal Berdasarkan ID

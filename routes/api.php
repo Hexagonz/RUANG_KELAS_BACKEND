@@ -55,6 +55,7 @@ Route::delete('/delete-fasilitas/{id_fasilitas}', [FasilitasController::class, '
 Route::get('/kelas', [KelasController::class, 'Kelas']);
 Route::post('/create-kelas', [KelasController::class, 'CreateKelas']);
 Route::post('/update-kelas/{id_kelas}', [KelasController::class, 'UpdateKelas']);
+Route::delete('/delete-kelas-fasilitas/{id}', [KelasController::class, 'DeleteKelasWithFasilitas']);
 Route::delete('/delete-kelas/{id_kelas}', [KelasController::class, 'DeleteKelas']);
 Route::get('/borrow-kelas/{id_kelas}', [KelasController::class, 'PinjamKelas']);
 

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->integer('kapasitas');
             $table->integer('index_kelas');
             $table->unsignedBigInteger('id_fasilitas');
-            $table->string('image_1');
-            $table->string('image_2');
-            $table->string('image_3');
+            $table->string('image_1')->nullable();
+            $table->string('image_2')->nullable();
+            $table->string('image_3')->nullable();
             $table->foreign('id_fasilitas')->references('id_fasilitas')->on('fasilitas');
             $table->timestamps();
         });

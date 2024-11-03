@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateKelasRequest;
 use App\Models\Kelas;
 use App\Http\Requests\CreateKelasRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class KelasController extends Controller
 {
@@ -57,15 +59,7 @@ class KelasController extends Controller
     {
         // Cari data kelas berdasarkan ID
         $kelas = Kelas::find($id_kelas);
-        $check = Kelas::where('nama_kelas','=',$request->nama_kelas)
-        ->where('id_fasilitas','=',$request->id_fasilitas)->first();
 
-        if($check) {
-            return response()->json([
-                "status" => 'error',
-                "message" => 'fasilitas sudah ada dikelas ' . $request->nama_kelas
-            ],422);
-        }
         if (!$kelas) {
             return response()->json(['status' => 'error', 'message' => 'Data tidak ditemukan'], 404);
         }
@@ -94,8 +88,6 @@ class KelasController extends Controller
             'image_3' => $data['image_3'] ?? $kelas->image_3,
         ]);
 
-        
-    
         // Kembalikan respon JSON setelah update berhasil
         return response()->json([
             'status' => 'success',
@@ -107,6 +99,7 @@ class KelasController extends Controller
     // Delete a class
     public function DeleteKelas($id_kelas)
     {
+        
         $kelas = Kelas::find($id_kelas);
         if (!$kelas) {
             return response()->json(['message' => 'Kelas not found'], 404);
@@ -114,6 +107,35 @@ class KelasController extends Controller
 
         $kelas->delete();
         return response()->json(['message' => 'Kelas deleted successfully'], 200);
+    }
+
+    
+    public function DeleteKelasWithFasilitas(Request $request, $id)
+    {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'nama_kelas' => 'required|string',
+        ]);
+    
+        // Periksa apakah validasi gagal
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+    
+        // Mencari kelas berdasarkan id_fasilitas dan nama_kelas
+        $fasilitas = Kelas::where('id_fasilitas', $id)
+            ->where('nama_kelas', $request->nama_kelas)
+            ->first();
+    
+        // Jika kelas tidak ditemukan
+        if (!$fasilitas) {
+            return response()->json(['message' => 'Kelas not found'], 404);
+        }
+    
+        // Menghapus kelas
+        $fasilitas->delete();
+    
+        return response()->json(['message' => 'Kelas & Fasilitas deleted successfully'], 200);
     }
 
     // Borrow a class

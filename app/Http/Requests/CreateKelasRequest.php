@@ -30,7 +30,7 @@ class CreateKelasRequest extends FormRequest
             'index_kelas' => 'required|numeric',
             'kapasitas' => 'required|numeric',
             'id_fasilitas' => 'required|numeric|exists:fasilitas,id_fasilitas',
-            'image_1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            'image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
