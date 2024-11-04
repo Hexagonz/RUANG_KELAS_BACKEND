@@ -102,7 +102,7 @@ class JadwalController extends Controller
             return response()->json(['message' => 'Jadwal not found'], 404);
         }
 
-        $jadwal->kelas()->detach(); 
+        $jadwal->kelasz()->detach(); 
         $jadwal->delete();
 
         return response()->json(['message' => 'Jadwal deleted successfully'], 200);
