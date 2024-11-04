@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Schema;
         Schema::create('jadwal', function (Blueprint $table) {
             $table->unsignedBigInteger('id_jadwal')->autoIncrement();
             $table->unsignedBigInteger('id_matkul');
-            $table->integer('index_kelas');
             $table->enum('kelas', ["A","B","C","D","E"]);
             $table->enum('hari', ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"]);
             $table->enum('semester',[1,2,3,4,5,6]);

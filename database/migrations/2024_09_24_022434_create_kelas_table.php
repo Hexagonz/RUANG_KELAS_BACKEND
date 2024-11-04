@@ -17,12 +17,10 @@ return new class extends Migration
             $table->enum('lokasi',['Teori', 'LAB']);
             $table->enum('status', ['Tersedia', 'Tidak Tersedia']);
             $table->integer('kapasitas');
-            $table->integer('index_kelas');
-            $table->unsignedBigInteger('id_fasilitas');
             $table->string('image_1')->nullable();
             $table->string('image_2')->nullable();
             $table->string('image_3')->nullable();
-            $table->foreign('id_fasilitas')->references('id_fasilitas')->on('fasilitas');
+            // $table->foreign('id_fasilitas')->references('id_fasilitas')->on('fasilitas');
             $table->timestamps();
         });
     }

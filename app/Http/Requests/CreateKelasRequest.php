@@ -28,9 +28,9 @@ class CreateKelasRequest extends FormRequest
             'nama_kelas' => 'required|in:TI 1,TI 2,TI 3,TI 4,TI 5,TI 6,TI 7,TI 8,TI 9,TI 10,TI 11,TI 12,TI 13,TI 14',
             'lokasi' => 'required|in:Teori,LAB',
             'status' => 'required|in:Tersedia,Tidak Tersedia',
-            'index_kelas' => 'required|numeric',
             'kapasitas' => 'required|numeric',
-            'id_fasilitas' => 'required|numeric|exists:fasilitas,id_fasilitas',
+            'fasilitas' => 'required|array', // Menggunakan array untuk banyak ID fasilitas
+            'fasilitas.*' => 'numeric|exists:fasilitas,id_fasilitas', // Validasi setiap ID fasilitas
             'image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'image_3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
@@ -39,7 +39,8 @@ class CreateKelasRequest extends FormRequest
 
     /**
      * Custom error messages for validation rules.
-    //  */
+     */
+    // Uncomment and customize this method if needed
     // public function messages(): array
     // {
     //     return [
@@ -50,10 +51,10 @@ class CreateKelasRequest extends FormRequest
     //         'status.required' => 'Status harus diisi.',
     //         'status.in' => 'Status tidak valid.',
     //         'kapasitas.required' => 'Kapasitas harus diisi.',
-    //         'id_fasilitas.required' => 'ID fasilitas harus diisi.',
-    //         'id_fasilitas.numeric' => 'ID fasilitas harus berupa angka.',
-    //         'id_fasilitas.exists' => 'ID fasilitas tidak ditemukan di database.',
-    //         'image_1.required' => 'Gambar 1 harus diunggah.',
+    //         'fasilitas_ids.required' => 'ID fasilitas harus diisi.',
+    //         'fasilitas_ids.array' => 'ID fasilitas harus berupa array.',
+    //         'fasilitas_ids.*.numeric' => 'ID fasilitas harus berupa angka.',
+    //         'fasilitas_ids.*.exists' => 'ID fasilitas tidak ditemukan di database.',
     //         'image_1.image' => 'Gambar 1 harus berupa file gambar.',
     //         'image_1.mimes' => 'Gambar 1 harus berformat jpeg, png, jpg, gif, atau svg.',
     //         'image_1.max' => 'Ukuran Gambar 1 tidak boleh lebih dari 10 MB.',

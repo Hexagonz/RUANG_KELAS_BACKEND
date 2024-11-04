@@ -15,7 +15,6 @@ class Jadwal extends Model
         "id_matkul",
         "id_kelas",
         "kelas",
-        "index_kelas",
         "semester",
         "waktu_mulai",
         "waktu_selesai",
@@ -26,8 +25,8 @@ class Jadwal extends Model
         return $this->belongsTo(Mata_kuliah::class, 'id_matkul', 'id_matkul');
     }
 
-    public function kelas()
+    public function kelasz()
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+        return $this->belongsToMany(Kelas::class, 'jadwal_kelas', 'id_jadwal', 'id_kelas');
     }
 }
