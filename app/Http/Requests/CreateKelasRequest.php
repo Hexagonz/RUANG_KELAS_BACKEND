@@ -24,6 +24,7 @@ class CreateKelasRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id_kelas' => 'nullable|exists:kelas,id_kelas', // Hanya jika ada id_kelas
             'nama_kelas' => 'required|in:TI 1,TI 2,TI 3,TI 4,TI 5,TI 6,TI 7,TI 8,TI 9,TI 10,TI 11,TI 12,TI 13,TI 14',
             'lokasi' => 'required|in:Teori,LAB',
             'status' => 'required|in:Tersedia,Tidak Tersedia',

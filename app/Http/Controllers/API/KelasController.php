@@ -46,7 +46,16 @@ class KelasController extends Controller
         if ($request->hasFile('image_3')) {
             $data['image_3'] = $request->file('image_3')->store('uploads', 'public');
         }
-
+        $dt = Kelas::where('nama_kelas','=',$request->nama_kelas)
+        ->where('id_fasilitas','=',$request->id_fasilitas)->first();
+        if($dt){
+            $dt->update();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Kelas berhasil diupdate',
+                'data' => $dt
+            ], 201);
+        }
         $kelas = Kelas::create($data); // Simpan data yang sudah diproses
         return response()->json([
             'status' => 'success',
@@ -82,6 +91,7 @@ class KelasController extends Controller
             'nama_kelas' => $data['nama_kelas'] ?? $kelas->nama_kelas,
             'lokasi' => $data['lokasi'] ?? $kelas->lokasi,
             'status' => $data['status'] ?? $kelas->status,
+            'kapasitas' => $data['kapasitas'] ?? $kelas->kapasitas,
             'id_fasilitas' => $data['id_fasilitas'] ?? $kelas->id_fasilitas,
             'image_1' => $data['image_1'] ?? $kelas->image_1,
             'image_2' => $data['image_2'] ?? $kelas->image_2,
@@ -100,7 +110,7 @@ class KelasController extends Controller
     public function DeleteKelas($id_kelas)
     {
         
-        $kelas = Kelas::find($id_kelas);
+        $kelas = Kelas::where('index_kelas','=',$id_kelas);
         if (!$kelas) {
             return response()->json(['message' => 'Kelas not found'], 404);
         }
