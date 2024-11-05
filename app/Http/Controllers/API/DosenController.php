@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mata_kuliah;
 use Illuminate\Http\Request;
+use App\Models\Mata_kuliah;
+use App\Models\Jadwal;
 use App\Models\Dosen;
 use Illuminate\Support\Facades\Validator;
 
@@ -88,8 +89,14 @@ class DosenController extends Controller
             ], 404);
         }
 
-        $matkul = Mata_kuliah::where('id_dosen','=',$id);
-        if($matkul){           
+        $matkuls = Mata_kuliah::where('id_dosen', '=', $id)->get();
+    
+        foreach ($matkuls as $matkul) {
+            // Hapus semua jadwal yang terkait dengan mata kuliah ini
+            $jadwals = Jadwal::where('id_matkul', '=', $matkul->id_matkul)->get();
+            foreach ($jadwals as $jadwal) {
+                $jadwal->delete();
+            }
             $matkul->delete();
         }
 

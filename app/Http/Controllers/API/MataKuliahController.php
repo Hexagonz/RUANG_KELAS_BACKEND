@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Mata_kuliah;
+use App\Models\Jadwal;
 use Illuminate\Support\Facades\Validator;
 
 class MataKuliahController extends Controller
@@ -123,7 +124,7 @@ class MataKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function DeleteMataKuliah($id)
+    public function deleteMataKuliah($id)
     {
         $mataKuliah = Mata_kuliah::find($id);
         if (!$mataKuliah) {
@@ -132,10 +133,21 @@ class MataKuliahController extends Controller
                 'message' => 'Mata Kuliah not found'
             ], 404);
         }
+    
+        // Cari semua jadwal yang terkait dengan mata kuliah ini
+        $jadwals = Jadwal::where("id_matkul", "=", $id)->get();
+        
+        // Hapus setiap jadwal yang terkait
+        foreach ($jadwals as $jadwal) {
+            $jadwal->delete();
+        }
+    
+        // Hapus mata kuliah
         $mataKuliah->delete();
+    
         return response()->json([
-            'status' => 'succses',
+            'status' => 'success',
             'message' => 'Mata Kuliah deleted successfully'
         ], 200);
-    }
+    }    
 }
