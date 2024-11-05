@@ -79,18 +79,34 @@ class JadwalController extends Controller
             return response()->json(['message' => 'Jadwal not found'], 404);
         }
     
+        // Cek apakah hanya ada data 'ruang' yang di-update
+        if ($request->has('ruang') && $request->all() === ['ruang' => $request->ruang]) {
+            if (count($request->ruang) === 1) {
+                // Jika hanya satu ruang, sinkronisasi dengan menghapus ruang lainnya
+                $jadwal->kelasz()->sync($request->ruang);
+            } else {
+                // Jika lebih dari satu ruang, gunakan sinkronisasi penuh
+                $jadwal->kelasz()->sync($request->ruang);
+            }
+    
+            return response()->json(['message' => 'Kelas updated successfully', 'data' => $jadwal->load('kelasz')], 200);
+        }
+    
+        // Update semua data jika selain 'ruang' juga diupdate
         $jadwal->update($request->except('kelas'));
     
+        // Sinkronisasi kelas
         if (count($request->ruang) === 1) {
-            // Jika hanya ada satu ruang yang diupdate, gunakan syncWithoutDetaching
-            $jadwal->kelasz()->syncWithoutDetaching($request->ruang);
+            // Sinkronisasi dengan hanya menimpa ruang yang ada
+            $jadwal->kelasz()->sync($request->ruang);
         } else {
-            // Jika lebih dari satu ruang, gunakan sync untuk sinkronisasi penuh
+            // Jika lebih dari satu ruang, gunakan sinkronisasi penuh
             $jadwal->kelasz()->sync($request->ruang);
         }
     
         return response()->json(['message' => 'Jadwal updated successfully', 'data' => $jadwal->load('kelasz')], 200);
     }
+     
     
 
     // Delete Jadwal Berdasarkan ID
